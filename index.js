@@ -24,6 +24,7 @@ module.exports = function(options) {
     config.auth_header = options.auth_header;
     config.project_ids = options.project_ids;
     config.organization_ids = options.organization_ids;
+    config.debug = options.debug || false;
 
     if (!options){
         console.log('Empty options object passed to Datasnap.');
