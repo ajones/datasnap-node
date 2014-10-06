@@ -9,7 +9,7 @@ var config = {
     api : "https://api-events.datasnap.io/v1.0/events",
     host : "api-events.datasnap.io",
     base_path : "/v1.0/events",
-    debug : true,
+    debug : false,
 
     auth_header : null,
     organization_ids : null,
