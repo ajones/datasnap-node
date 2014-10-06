@@ -31,7 +31,7 @@ module.exports = function(options) {
 
     if (!options){
         console.log('Empty options object passed to Datasnap.');
-    } else if (config.organization_ids === null ||
+    } else if (!config.organization_ids ||
                config.organization_ids.count < 1 ) {
         console.log('At leist one organization id is required.');
     }
