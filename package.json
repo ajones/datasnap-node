@@ -1,0 +1,8 @@
+{
+  "name": "datasnap",
+  "version": "0.1.0",
+  "description": "datasnap nodejs driver",
+  "main": "index.js",
+  "author": "",
+  "license": "MIT"
+}
