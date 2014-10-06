@@ -1,5 +1,8 @@
 /**
- *
+ * Datasnap nodejs wrapper for their REST tracking api
+ * API reference : http://docs.datasnapio.apiary.io/
+ * Creator : Aaron Jones <aaron@inburst.io>
+ * Date : October 6, 2014
  */
 
 // required for secure communication
@@ -37,7 +40,7 @@ module.exports = function(options) {
     var datasnapCore = (function() {
 
         this.trackEvent = function(data){
-            console.log('Sending tracking call');
+            console.log('Logging ['+(data.event_type||"some event")+'] to Datasnap.');
             // append project and org ids to the data
             data = massageData(data);
             // fire the call

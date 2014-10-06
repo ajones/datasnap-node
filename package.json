@@ -1,8 +1,36 @@
 {
-  "name": "datasnap",
-  "version": "0.1.0",
-  "description": "datasnap nodejs driver",
-  "main": "index.js",
-  "author": "",
-  "license": "MIT"
+    "name": "datasnap",
+    "version": "0.1.0",
+    "author": "Aaron Jones <aaron@inburst.io>",
+    "contributors" : [
+        {
+            "name": "Aaron Jones",
+            "email": "aaron@inburst.io"
+        }
+    ],
+    "description": "Datasnap nodejs REST api wrapper.",
+    "main": "index.js",
+    "author": "",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/ajones/datasnap-node.git"
+    },
+    "bugs": {
+        "url": "https://github.com/ajones/datasnap-node/issues"
+    },
+    "dependencies": {},
+    "devDependencies": {},
+    "optionalDependencies": {},
+    "engines": {
+        "node": "*"
+    },
+    "keywords": [
+        "api",
+        "ibeacon",
+        "beacon",
+        "datasnap",
+        "analytics",
+        "tracking"
+    ]
 }
