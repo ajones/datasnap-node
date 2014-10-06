@@ -8,7 +8,7 @@
             "email": "aaron@inburst.io"
         }
     ],
-    "description": "Datasnap nodejs REST api wrapper.",
+    "description": "Datasnap nodejs REST api wrapper. API reference http://docs.datasnapio.apiary.io/",
     "main": "index.js",
     "author": "",
     "license": "MIT",
