@@ -110,7 +110,8 @@ function makeCallToDatasnap(dataBlob,callback) {
         agent: null
     };
     // stringify the data blob being sure to remove new lines.
-    var blobString = dataBlob && JSON.stringify(dataBlob).replace(/[\n]/g, '');
+    var blobString = dataBlob && JSON.stringify(dataBlob,null,4);
+    console.log(blobString)
 
     // create the connection agent
     options.agent = new https.Agent(options);
