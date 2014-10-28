@@ -40,7 +40,7 @@ module.exports = function(options) {
     var datasnapCore = (function() {
 
         this.trackEvent = function(data){
-            console.log('Logging ['+(data.event_type||"some event")+'] to Datasnap.');
+            config.debug && console.log('Logging ['+(data.event_type||"some event")+'] to Datasnap.');
             // append project and org ids to the data
             data = massageData(data);
             // fire the call
@@ -111,7 +111,7 @@ function makeCallToDatasnap(dataBlob,callback) {
     };
     // stringify the data blob being sure to remove new lines.
     var blobString = dataBlob && JSON.stringify(dataBlob,null,4);
-    console.log(blobString)
+    config.debug && console.log(blobString)
 
     // create the connection agent
     options.agent = new https.Agent(options);
