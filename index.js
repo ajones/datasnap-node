@@ -84,30 +84,29 @@ function massageData(data) {
         data = [data];
     }  
     for (var i in data){    	
-        if(data[i].event_type === 'beacon_arrive' || data[i].event_type === 'beacon_sighting' || data[i].event_type === 'beacon_depart_vendor' 
-        		|| data[i].event_type ===  'beacon_depart' || data[i].event_type ===  'beacon_visit' || data.event_type === 'beacon_visit_vendor'){
-          	if(!data[i].place || !data[i].beacon || !data[i].user){
-        	console.log('A beacon event must contain a beacon, user and place');
+        if((data[i].event_type === 'beacon_arrive' || data[i].event_type === 'beacon_sighting' || data[i].event_type === 'beacon_depart_vendor' 
+        		|| data[i].event_type ===  'beacon_depart' || data[i].event_type ===  'beacon_visit' || data.event_type === 'beacon_visit_vendor')
+        	&& (!data[i].beacon)){
+        		console.log('A beacon event must contain a beacon');
           	return;
-          }}  
+          } 
         
-        else if(data[i].event_type === 'geofence_arrive' || data[i].event_type === 'geofence_sighting' || data[i].event_type === 'geofence_depart'){
-        	if(!data[i].geo_fence || !data[i].place){
-            	console.log('A geofence event must contain a geofence and a place');
+        else if((data[i].event_type === 'geofence_arrive' || data[i].event_type === 'geofence_sighting' || data[i].event_type === 'geofence_depart') 
+        	&& (!data[i].geofence)){
+            	console.log('A geofence event must contain a geofence');
             	return;
-            }}  
+            }  
         
-        else if(data[i].event_type === 'global_position_sighting'){
-        	if(!data[i].global_position || !data[i].user){
-            	console.log('A global position event must contain a global position and a user');
+        else if((data[i].event_type === 'global_position_sighting') && (!data[i].global_position)){      	
+            	console.log('A global position event must contain a global position');
             	return;
-            }}  
+            }  
                
-        else if(data[i].event_type ==='communication_delivered' || data[i].event_type ==='campaign_request' || data[i].event_type ==='campaign_redemption'){
-        	if(!data[i].place || !data[i].campaign || !data[i].communication){
-            	console.log('A communication event must contain a place, campaign and communication');
+        else if((data[i].event_type ==='communication_delivered' || data[i].event_type ==='campaign_request' || data[i].event_type ==='campaign_redemption')
+        	&& (!data[i].communication)){	
+        	console.log('A communication event must contain a communication');
             	return;
-            }}  
+            }  
         
         }  
     return data;
