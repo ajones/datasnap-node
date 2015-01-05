@@ -9,9 +9,17 @@
 var https = require('https');
 
 var config = {
-    api : "https://api-events.datasnap.io/v1.0/events",
-    host : "api-events.datasnap.io",
-    base_path : "/v1.0/events",
+    events : {
+        api : "https://api-events.datasnap.io/v1.0/events",
+        host : "api-events.datasnap.io",
+        base_path : "/v1.0/events"
+    },
+    analytics : {
+        api : "https://api-analytics.datasnap.io/v1.0/events",
+        host : "api-analytics.datasnap.io",
+        base_path : "/v1.0/events"
+    },
+
     debug : false,
 
     auth_header : null,
@@ -44,7 +52,13 @@ module.exports = function(options) {
             // append project and org ids to the data
             data = massageData(data);
             // fire the call
-            makeCallToDatasnap(data)
+            postToDatasnap(data)
+        }
+
+        this.retrieveAnalytics = function(endpoint, segmentationParameters, callback){
+            config.debug && console.log('Retrieving analytics from  ['+(endpoint||"unknown endpoint")+'].');
+            // fire the call
+            retrieveDataFromDatasnap(endpoint,segmentationParameters,callback);
         }
 
         return this;
@@ -89,13 +103,13 @@ function massageData(data) {
 /**
  * Physically fires off the request to the datasnap API.
  */
-function makeCallToDatasnap(dataBlob,callback) {
+function postToDatasnap(dataBlob,callback) {
     // dont do anything if the datablob is empty
     if (!dataBlob) return;
 
     // pre fill pipe values
-    var host = config.host;
-    var path = config.base_path
+    var host = config.events.host;
+    var path = config.events.base_path
     var headers = {
         'Authorization': 'Basic '+config.auth_header,
         'Content-Type': 'application/json'
@@ -147,6 +161,77 @@ function makeCallToDatasnap(dataBlob,callback) {
     } catch(err){
         console.log('Unable to write data payload ['+blobString+'] to Datasnap!');
     }
+    // finialize the request
+    outbound.end();
+}
+
+
+/**
+ * Physically fires off the request to the datasnap API.
+ */
+function retrieveDataFromDatasnap(endpoint,segmentationParams,callback) {
+    // dont do anything if the datablob is empty
+    if (!endpoint){ console.log('Missing endpoint!'); return callback && callback()};
+
+    // pre fill pipe values
+
+    var headers = {
+        'Authorization': 'Basic '+config.auth_header,
+        'Content-Type': 'application/json'
+    };
+
+    // convert the segmentation parameters to a query string
+    var queryString = null;
+    if (segmentationParams) {
+        queryString = "?";
+        for (var key in segmentationParams){
+            queryString += key+'='+segmentationParams[key]+'&';
+        }
+    }
+    config.debug && console.log('Segmentation Paramaters : ',queryString)
+
+    var host = config.analytics.host;
+    var path = config.analytics.base_path + endpoint
+    if (queryString){
+        path += queryString;
+    }
+    // build the options blob for the https controller
+    var options = {
+        host: host,
+        path: path,
+        method: 'GET',
+        headers: headers,
+        agent: null
+    };
+
+    // create the connection agent
+    options.agent = new https.Agent(options);
+
+    // build a request from the agent
+    var outbound = https.request(options,
+                function (response) {
+                    var body = null;
+                    // spool the data as it comes in
+                    response.on('data', function(chunk) {
+                        if (!body){ body = chunk; }
+                        else { body += chunk; }
+                    });
+                    // when we receive the
+                    response.on('end', function() {
+                        // if we dont get a 201 then the post was unsuccessful
+                        // be sure to log that it did not work.
+                        if (config.debug || response.statusCode != 201){
+                            console.log("Datasnap response:");
+                            console.log("Status Code:"+response.statusCode)
+                            console.log("Response Body:"+(body && body.toString('utf8', 0, body.len)))
+                        }
+                    });
+                }).on('error',function(e){
+                    // log any errors to the console
+                    console.log("Datasnap error:");
+                    console.log("Host: "+host);
+                    console.log("Error: "+e.message);
+                });
     // finialize the request
     outbound.end();
 }
