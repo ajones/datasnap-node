@@ -246,7 +246,7 @@ function retrieveDataFromDatasnap(endpoint,segmentationParams,callback) {
                     response.on('end', function() {
                         // if we dont get a 201 then the post was unsuccessful
                         // be sure to log that it did not work.
-                        if (config.debug || response.statusCode != 201){
+                        if (config.debug || response.statusCode != 200){
                             console.log("Datasnap response:");
                             console.log("Status Code:"+response.statusCode)
                             console.log("Response Body:"+(body && body.toString('utf8', 0, body.len)))
