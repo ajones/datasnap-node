@@ -177,7 +177,8 @@ function postToDatasnap(dataBlob,callback) {
                     });
                 }).on('error',function(e){
                     // log any errors to the console
-                    console.log("Datasnap error:");
+                    console.log("Datasnap post error. Could not POST event with data:");
+                    console.log(blobString);
                     console.log("Host: "+host);
                     console.log("Error: "+e.message);
                 });
@@ -261,7 +262,8 @@ function retrieveDataFromDatasnap(endpoint,segmentationParams,callback) {
                     });
                 }).on('error',function(e){
                     // log any errors to the console
-                    console.log("Datasnap error:");
+                    console.log("Datasnap pull error. Could not retrieve data from ["+endpoint+"] with parameters:");
+                    console.log(queryString)
                     console.log("Host: "+host);
                     console.log("Error: "+e.message);
                 });
